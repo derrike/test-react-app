@@ -18,6 +18,10 @@ on:
     types:
       - completed
   status:
+  workflow_run:
+    workflows:
+      - ci
+    types: completed
 jobs:
   automerge:
     runs-on: ubuntu-latest
