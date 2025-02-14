@@ -1,18 +1,30 @@
-name: Auto-Merge-PRs
-
+name: automerge
 on:
   pull_request:
-    types: [opened, reopened, synchronize]
-
+    types:
+      - labeled
+      - unlabeled
+      - synchronize
+      - opened
+      - edited
+      - ready_for_review
+      - reopened
+      - unlocked
+  pull_request_review:
+    types:
+      - submitted
+  check_suite:
+    types:
+      - completed
 jobs:
-  auto-merge:
+  automerge:
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Run Auto-Merge PRs
-        uses: MinhOmega/auto-merge@v1.0.4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+      - id: automerge
+        name: automerge
+        uses: "pascalgn/automerge-action@v0.16.4"
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
